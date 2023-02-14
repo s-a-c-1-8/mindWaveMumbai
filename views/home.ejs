@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- <link rel="stylesheet" href="./style.css"> -->
+    <script type="text/javascript" src="/asset/js/jquery-1.12.4.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/asset/js/jqxcore.js"></script>
+    <script type="text/javascript" src="/asset/js/jqxdraw.js"></script>
+    <script type="text/javascript" src="/asset/js/jqxgauge.js"></script>
+    <link rel="stylesheet" href="/asset/css/animate.css" />
+    <style>
+        
+#svg circle {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+  /* stroke: #000; */
+  stroke-width: 1em;
+  stroke-linecap: round;
+}
+#svg #bar {
+  /* stroke: #1dd9ee; */
+  stroke-width: 2em;
+  stroke-linecap: round;
+}
+#cont {
+  display: block;
+  height: 290px;
+  width: 290px;
+  margin: 2em auto;
+  /* box-shadow: 0 0 1px black; */
+  border-radius: 100%;
+  position: relative;
+}
+#cont:after {
+  position: absolute;
+  display: block;
+  height: 244px;
+  width: 244px;
+  left: 50%;
+  top: 50%;
+  /* box-shadow: inset 0 0 0.5em black; */
+  content: attr(data-pct)"%";
+  margin-top: -117px;
+  margin-left: -117px;
+  border-radius: 100%;
+  line-height: 330px;
+  font-size: 2em;
+  /* text-shadow: 0 0 0.5em black; */
+}
+
+input {
+  color: #000;
+}
+#main{
+    width: 100%;
+    zoom:200%;
+}
+/* Base */
+#cc ,#dd {
+  font-size: 16px;
+  position: absolute;
+  color: #000;
+  font-weight: bold;
+  letter-spacing: 1px;
+  overflow: hidden;
+  border-right: 2px solid hsl(0, 0%, 80%);
+  animation: typewriter 4s steps(44) 1s 1 normal both,blinkTextCursor 5s infinite;
+  top: 80%;
+  left: 30%;
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 150px;
+  }
+}
+@keyframes blinkTextCursor {
+  from {
+    border-right-color: hsl(0, 0%, 80%);
+  }
+  to {
+    border-right-color: transparent;
+  }
+}
+
+#on {
+    position: absolute;
+    background-color: red;
+    padding: 20px;
+    border-radius: 200px;
+    float: right;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 100px 160px 200px 0 rgba(0, 0, 0, 0.19);
+    /* border: 1px solid black; */
+    top: 80%;
+    left: 65%;
+}
+#off{
+    background-color: red;
+    padding: 30px;
+    border-radius: 200px;
+    float: right;
+    margin-right: 20px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    border: 1px solid black;
+}
+#tt{
+  position: absolute;
+  margin: 10px;
+  padding: 240px;
+  width: 20px;
+  border-radius: 400px;
+  border: 20px solid black;
+  left: 32%;
+  top: 18%;
+}
+#center {
+  position: absolute;
+  left: 38%;
+  top: 40%;
+}
+h2, h3 {
+  font-size: 26px;
+  font-weight: bold;
+}
+#msg{
+  width: 300px;
+  position: absolute;
+  top: 30%;
+  left: 40%;
+}
+#msg > h6{
+  text-align: center;
+  position: absolute;
+  top: 70%;
+}
+#img {
+  width: 300px;
+  height: 200px;
+ 
+}
+#sub{
+  position: absolute;
+}
+#sub circle {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+  /* stroke: #000; */
+  stroke-width: 1em;
+  stroke-linecap: round;
+}
+/* Make things perty */
+html {  height: 100%; width: 100%; overflow: hidden;}
+body { font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;   color: #000; height: 100%; padding-top: 2em; text-align: center;}
+h1, h2{ margin: 0; text-transform: uppercase;}
+h2 { font-weight: 300}
+input { border: 1px solid #666; background: #333; color: #fff; padding: 0.5em; box-shadow: none; outline: none !important; margin: 1em  auto; text-align: center;}
+    </style>
+</head>
+<body>
+  <h1>Mind Wave Progress Meter</h1>
+<!-- <h2>Based off of CSS3 circle progress bars</h2> -->
+<!-- <div id="center">
+  <h2 class="animated infinite bounce delay-2s">THE</h2><br>
+  <h3 class="animated infinite bounce delay-2s">POWER OF CONCENTRATION</h3>
+</div>
+<div  style="text-align: center;" id="tt"> -->
+  
+</div>
+<div id="msg">
+  <img   id="img" src="../asset/images/cft360.png" alt="">
+  <h6>Lorem ipsum dolor sit amet consectetur, adipisicing elit. iciis nisi eveniet consectetur?</h6>
+</div>
+<!-- <svg id="sub">
+  <defs>
+    <linearGradient id="test">
+    <stop offset="0%" stop-color="#f0f"/>
+    <stop offset="100%" stop-color="#0ff"/>
+    </linearGradient>    
+  </defs>  
+  <circle stroke-linejoin="round" id="bar" r="130" cx="150" cy="150" fill="transparent" stroke-dasharray="816.83" stroke-dashoffset="0"  stroke="url(#test)"></circle>
+</svg> -->
+<div id="main">
+  
+    <div id="cont" data-pct="100" >
+        <svg id="svg" width="300" height="300" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <circle stroke-linejoin="round" r="130" cx="150" cy="150" fill="transparent" stroke-dasharray="816.83" stroke-dashoffset="0"></circle>
+          <defs>
+            <linearGradient id="test">
+            <stop offset="0%" stop-color="#f6a508"/>
+            <stop offset="100%" stop-color="#f09"/>
+            </linearGradient>    
+          </defs>  
+          <circle stroke-linejoin="round" id="bar" r="130" cx="150" cy="150" fill="transparent" stroke-dasharray="816.83" stroke-dashoffset="0"  stroke="url(#test)"></circle>
+        </svg>
+    </div>
+</div>
+
+<div id="on"></div>
+
+<h3 id="score" style="display: none;"></h3>
+<h2 id="cc">CONNECTING.........</h2>
+<h2 id="dd" style="display: none;" >CONNECTED</h2>
+<script >
+  var a = 0
+  socket = io()
+  socket.on('meditation' , (e) => {
+  var val = e
+  var $circle = $('#svg #bar');
+  if(val > 0){
+    document.getElementById('main').style.display = 'block'
+    document.getElementById('on').style.background = 'green'
+    document.getElementById('dd').style.display = 'block'
+    document.getElementById('cc').style.display = 'none'
+  }
+  if(val == 0){
+    document.getElementById('on').style.background = 'red'
+    document.getElementById('dd').style.display = 'none'
+    document.getElementById('cc').style.display = 'block'
+  }
+  if (isNaN(val)) {
+   val =100; 
+  }
+  else{
+    var r = $circle.attr('r');
+    var c = Math.PI*(r*2);
+    console.log(val);
+    if (val < 0) { val = 0;}
+    if (val > 100) { val = 100;}
+    var pct = ((100-val)/100)*c;
+    $circle.css({ strokeDashoffset: pct});
+    $('#cont').attr('data-pct',val);
+
+    if (val == 100) {
+    count++;
+    } else {
+      count = 0;
+    }
+    if (count === 6) {
+      alert('winner')
+      socket.emit('win')
+      console.log(true);
+      // break;
+    }
+
+    // var b
+    // var pv = document.getElementById('score').innerHTML
+    //   if(val == 0){
+    //   var pct = ((100-a)/100)*c;
+    //   $circle.css({ strokeDashoffset: pct});
+    //   $('#cont').attr('data-pct',a);
+    //   }
+     
+    //   if(e >= 40){
+    //   console.log('here');
+    //   document.getElementById('score').innerHTML = val
+    //   b = a++
+    //   var pct = ((100-b)/100)*c;
+    //   $circle.css({ strokeDashoffset: pct});
+    //   $('#cont').attr('data-pct',b);
+    //   if(b == 101){
+    //     alert('reached')
+    //     location.reload()
+      // }
+      // }
+
+    //   if(e < 20 && e > 1)  {
+    //     console.log('here');
+    //     document.getElementById('score').innerHTML = val
+    //     b = a--
+    //     if(b == 0){
+    //       var pct = 0
+    //       $circle.css({ strokeDashoffset: pct});
+    //       $('#cont').attr('data-pct',0);
+    //     }
+    //     else{
+          // var pct = ((100-b)/100)*c;
+          // $circle.css({ strokeDashoffset: pct});
+          // $('#cont').attr('data-pct',b);
+    //     }
+    //  }
+    }
+    // }
+  })
+  
+  </script>
+</body>
+</html>

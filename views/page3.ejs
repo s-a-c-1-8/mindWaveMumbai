@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,body{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+    .loginDiv{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        margin-top: 37%;
+        text-align: center;
+    }
+    .subLoginDiv{
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="../asset/css/login.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div style="position: fixed;width: 100%;height: 100%;padding: 0;margin: 0;">
+        <!-- <video src="/asset/videos/smallfile3.mp4" loop muted autoplay ></video> -->
+    </div>
+    <div class="form animated flipInX animated flip ">
+        <h2 style="font-family: 'Muli', sans-serif;color: black;">Player - 1</h2>
+        <input placeholder="Username" id="firstName" type="text"></input>
+        <h2 style="font-family: 'Muli', sans-serif;color: black;">Player - 2</h2>
+        <input placeholder="Username" id="secondName" type="text"></input>
+        <h2 style="font-family: 'Muli', sans-serif;color: black;">Player - 3</h2>
+        <input placeholder="Username" id="thirdName" type="text"></input>
+        <h2 style="font-family: 'Muli', sans-serif;color: black;">Player - 4</h2>
+        <input placeholder="Username" id="fourName" type="text"></input>
+        <button onclick="nextPage()">Submit</button>
+    </div>
+    <div class="loginDiv">
+        <div class="subLoginDiv" style="z-index:999;position: relative;">
+        </div>
+        <!-- <div class="subLoginDiv">
+            <img src="../asset/images/Logo (1).png " style="z-index:999;position: relative;" width="55%" alt="">
+        </div> -->
+        <div class="subLoginDiv">
+        </div>
+    </div >
+    <script src="../asset/js/firstPage.js"></script>
+</body>
+
+</html>

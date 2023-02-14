@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Oswald&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/asset/css/animate.css" />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        /* background-image: url('../asset/images/race1.jpeg'); */
+        background-size: 100%;
+      }
+
+      h1 {
+        /* color: whitesmoke; */
+        margin-left: 15%;
+        font-family: "Muli", sans-serif;
+        font-size: 30pt;
+        font-style: italic  ;
+        /* margin-top: 25%; */
+      }
+      .winnerDiv{
+          width: 100%;
+          top: 75vh;
+          /* height: 100%; */
+          padding: 0;
+          margin: 0;
+          display: flex;
+          position: absolute;
+          text-align: center;
+          justify-content: center;
+      }
+      .winnerLogos{
+          width: 100%;
+          padding: 0;
+          margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div style="position: fixed;width: 100%;height: 100%;padding: 0;margin: 0;">
+      <video src="/asset/videos/smallfile3.mp4" loop muted autoplay ></video>
+  </div>
+    <div style="padding-top: 10%">
+      <h1 class="animated infinite bounce delay-2s">
+        Congrats you have completed 5 laps in
+      </h1>
+      <h1 id="lastTime">60 Seconds</h1>
+    </div>
+    <div class="winnerDiv">
+        <div class="winneLogos">
+            <!-- <img src="../asset/images/logo3.png" style="width: 55%;" alt=""> -->
+        </div>
+        <div class="winneLogos">
+            <img src="../asset/images/logo (1).png" style="width: 75%;" alt="">
+        </div>
+        <div class="winneLogos">
+            <!-- <img src="../asset/images/logo6.png" style="width: 55%;" alt=""> -->
+        </div>
+    </div>
+    <script>
+      const socket = io();
+      socket.on("newTimer", function(e) {
+        console.log("emitted", e);
+        document.getElementById("lastTime").innerText = "In 0:" + e;
+      });
+
+      socket.emit("newUser");
+
+      socket.on("sendNewUser", e => {
+        console.log("newValue", e);
+
+        // var user = document.getElementById('userName').innerText = e.userName;
+        var userTime = (document.getElementById("lastTime").innerText =
+          e.userTime + " Seconds");
+      });
+
+      document.addEventListener("keypress", event => {
+        // console.log('user', user)
+        const keyName = event.key;
+
+        if (keyName == "p") {
+          console.log(event.key);
+
+          window.location = "/login";
+        }
+      });
+    </script>
+  </body>
+</html>

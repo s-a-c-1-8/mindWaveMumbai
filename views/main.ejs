@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- <link rel="stylesheet" href="./style.css"> -->
+    <script type="text/javascript" src="/asset/js/jquery-1.12.4.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/asset/js/jqxcore.js"></script>
+    <script type="text/javascript" src="/asset/js/jqxdraw.js"></script>
+    <script type="text/javascript" src="/asset/js/jqxgauge.js"></script>
+    <style>
+        
+#svg circle {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+  stroke: #666;
+  stroke-width: 1em;
+}
+#svg #bar {
+  stroke: #1dd9ee;
+}
+#cont {
+  display: block;
+  height: 290px;
+  width: 290px;
+  margin: 2em auto;
+  /* box-shadow: 0 0 1px black; */
+  border-radius: 100%;
+  position: relative;
+}
+#cont:after {
+  position: absolute;
+  display: block;
+  height: 244px;
+  width: 244px;
+  left: 50%;
+  top: 50%;
+  box-shadow: inset 0 0 1em black;
+  content: attr(data-pct)"%";
+  margin-top: -117px;
+  margin-left: -117px;
+  border-radius: 100%;
+  line-height: 260px;
+  font-size: 2em;
+  text-shadow: 0 0 0.5em black;
+}
+
+input {
+  color: #000;
+}
+#main{
+    width: 100%;
+    display: flex;
+}
+#sub1 , #sub2 {
+    width: 50%;
+    zoom:150%;
+}
+/* Base */
+#cc ,#dd {
+  position: relative;
+  color: #000;
+  font-weight: bold;
+  letter-spacing: 7px;
+  overflow: hidden;
+  border-right: 2px solid hsl(0, 0%, 80%);
+  animation: typewriter 4s steps(44) 1s 1 normal both,
+    blinkTextCursor 5s infinite;
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 310px;
+  }
+}
+@keyframes blinkTextCursor {
+  from {
+    border-right-color: hsl(0, 0%, 80%);
+  }
+  to {
+    border-right-color: transparent;
+  }
+}
+
+#on {
+    background-color: red;
+    padding: 30px;
+    border-radius: 200px;
+    float: right;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 100px 160px 200px 0 rgba(0, 0, 0, 0.19);
+    /* border: 1px solid black; */
+}
+
+/* Make things perty */
+html {  height: 100%; width: 100%; overflow: hidden;}
+body { font-family:'Courier New', Courier, monospace;   color: #000; height: 100%; padding-top: 2em; text-align: center;}
+h1, h2{ margin: 0; text-transform: uppercase;}
+h2 { font-weight: 300}
+input { border: 1px solid #666; background: #333; color: #fff; padding: 0.5em; box-shadow: none; outline: none !important; margin: 1em  auto; text-align: center;}
+    </style>
+</head>
+<body>
+  
+  <h1>Mind Wave Progress Meter</h1>
+<!-- <h2>Based off of CSS3 circle progress bars</h2> -->
+
+<section id="main">
+  <div id="sub1">
+    <div id="cont" data-pct="100">
+        <svg id="svg" width="300" height="300" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <circle r="130" cx="150" cy="150" fill="transparent" stroke-dasharray="816.83" stroke-dashoffset="0"></circle>
+          <circle id="bar" r="130" cx="150" cy="150" fill="transparent" stroke-dasharray="816.83" stroke-dashoffset="0"></circle>
+        </svg>
+        </div>
+</div>
+<div id="sub2">
+  <div id="cont" data-pct="100">
+      <svg id="svg" width="300" height="300" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <circle r="130" cx="150" cy="150" fill="transparent" stroke-dasharray="816.83" stroke-dashoffset="0"></circle>
+        <circle id="bar" r="130" cx="150" cy="150" fill="transparent" stroke-dasharray="816.83" stroke-dashoffset="0"></circle>
+      </svg>
+      </div>
+</div>
+</section>
+<div id="on">
+
+</div>
+<!-- <div id="off">
+
+</div> -->
+
+<h2 id="cc">CONNECTING.........</h2>
+<h2 id="dd" style="display: none;" >CONNECTED</h2>
+
+<!-- <label for="percent">Type a percent!</label>
+<input id="percent" name="percent"> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+  <script >
+    socket = io()
+    socket.on('meditation' , (e) => {
+        // alert(e)
+        var val = e
+//   alert(val)
+console.log(e);
+  var $circle = $('#svg #bar');
+  if(val > 0){
+    document.getElementById('on').style.background = 'green'
+    document.getElementById('dd').style.display = 'block'
+    document.getElementById('cc').style.display = 'none'
+  }
+  if(val == 0){
+    document.getElementById('on').style.background = 'red'
+    document.getElementById('dd').style.display = 'none'
+    document.getElementById('cc').style.display = 'block'
+  }
+  if (isNaN(val)) {
+   val = 100; 
+  }
+  else{
+    var r = $circle.attr('r');
+    var c = Math.PI*(r*2);
+   
+    if (val < 0) { val = 0;}
+    if (val > 100) { val = 100;}
+    
+    var pct = ((100-val)/100)*c;
+    
+    $circle.css({ strokeDashoffset: pct});
+    
+    $('#cont').attr('data-pct',val);
+  }
+  })
+  </script>
+</body>
+</html>

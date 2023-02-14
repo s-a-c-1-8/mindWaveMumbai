@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/asset/css/jqx.base.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1"
+    />
+    <script src="/socket.io/socket.io.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Oswald&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="text/javascript"
+      src="/asset/js/jquery-1.12.4.min.js"
+    ></script>
+    <script type="text/javascript" src="/asset/js/jqxcore.js"></script>
+    <script type="text/javascript" src="/asset/js/jqxdraw.js"></script>
+    <script type="text/javascript" src="/asset/js/jqxgauge.js"></script>
+    <style type="text/css">
+      /* #gaugeValue {
+        background-image: -webkit-gradient(
+          linear,
+          50% 0%,
+          50% 100%,
+          color-stop(0%, #fafafa),
+          color-stop(100%, #f3f3f3)
+        );
+        background-image: -webkit-linear-gradient(#fafafa, #f3f3f3);
+        background-image: -moz-linear-gradient(#fafafa, #f3f3f3);
+        background-image: -o-linear-gradient(#fafafa, #f3f3f3);
+        background-image: -ms-linear-gradient(#fafafa, #f3f3f3);
+        background-image: linear-gradient(#fafafa, #f3f3f3);
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+        -o-border-radius: 3px;
+        border-radius: 3px;
+        -webkit-box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+      } */
+      /* @font-face {
+        font-family: "using";
+        src: URL("./asset/digital-7/using.ttf") format("truetype");
+      } */
+      .nameDivv{
+        position: absolute;
+        left: 70%;
+        top: 10%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5rem
+      }
+      .nameDiv {
+        position: absolute;
+        left: 20%;
+        top: 10%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5rem;
+      }
+      /* .clock {
+        position: absolute;
+        top: 5vh;
+        font-family: using;
+        color: black;
+        left: 12vh; */
+        /* font-size: 2pt; */
+        /* position: relative; */
+        /* z-index: 0; */
+
+        /* text-align: center;
+        width: 119px;
+        height: 105px;
+        border-radius: 10px;
+        overflow: hidden; */
+        /* padding: 2rem; */
+      /* } */
+      /* .clock::before {
+        content: "";
+        position: absolute;
+        z-index: -2;
+        left: -50%;
+        top: -50%;
+        width: 200%;
+        height: 200%;
+        background-color: #399953;
+        background-repeat: no-repeat;
+        background-size: 50% 50%, 50% 50%;
+        background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+        background-image: linear-gradient(#399953, #399953),
+          linear-gradient(#fbb300, #fbb300), linear-gradient(#d53e33, #d53e33),
+          linear-gradient(#377af5, #377af5);
+        -webkit-animation: rotate 4s linear infinite;
+        animation: rotate 4s linear infinite;
+      } */
+      /* *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      } */
+
+      /* @-webkit-keyframes rotate {
+        100% {
+          -webkit-transform: rotate(1turn);
+          transform: rotate(1turn);
+        }
+      } */
+
+      /* @keyframes rotate {
+        100% {
+          -webkit-transform: rotate(1turn);
+          transform: rotate(1turn);
+        }
+      } */
+      /* .clock::after {
+        content: "";
+        position: absolute;
+
+        z-index: -1;
+        left: 6px;
+        top: 6px;
+        width: calc(100% - 12px);
+        height: calc(100% - 12px);
+        background: white;
+        border-radius: 5px;
+      } */
+
+      /* .timer {
+        font-family: using;
+        text-shadow: 6px 2px 4px grey;
+        font-size: 40pt;
+        position: absolute;
+        left:50%;
+        top: 20%;
+        transform: translate(-50%, -50%); */
+
+        /* margin-top: 3.5vh; */
+      /* } */
+    </style>
+    <script type="text/javascript">
+      const sockettt = io('192.168.0.103:7788');
+      $(document).ready(function() {
+        $("#gaugeContainer3").jqxGauge({
+          ranges: [
+            {
+              startValue: 0,
+              endValue: 25,
+              style: { fill: "#4bb648", stroke: "#4bb648" },
+              endWidth: 5,
+              startWidth: 1
+            },
+            {
+              startValue: 25,
+              endValue: 50,
+              style: { fill: "#fbd109", stroke: "#fbd109" },
+              endWidth: 10,
+              startWidth: 5
+            },
+            {
+              startValue: 50,
+              endValue: 90,
+              style: { fill: "#ff8000", stroke: "#ff8000" },
+              endWidth: 13,
+              startWidth: 10
+            },
+            {
+              startValue: 90,
+              endValue: 120,
+              style: { fill: "#e02629", stroke: "#e02629" },
+              endWidth: 16,
+              startWidth: 13
+            }
+          ],
+          ticksMinor: { interval: 5, size: "5%" },
+          ticksMajor: { interval: 10, size: "9%" },
+          value: 0,
+          colorScheme: "scheme08",
+          animationDuration: 1200
+        });
+
+        
+        // $("#gaugeContainer").jqxGauge("value", 80);
+        sockettt.on("meditation", e => {
+          if (e) {
+            $("#gaugeContainer3").jqxGauge("value", e);
+          }
+        });
+      });
+
+      const sockett = io('192.168.0.101:7788');
+      $(document).ready(function() {
+        $("#gaugeContainer2").jqxGauge({
+          ranges: [
+            {
+              startValue: 0,
+              endValue: 25,
+              style: { fill: "#000", stroke: "#000" },
+              endWidth: 5,
+              startWidth: 1
+            },
+            {
+              startValue: 25,
+              endValue: 50,
+              style: { fill: "#000", stroke: "#000" },
+              endWidth: 10,
+              startWidth: 5
+            },
+            {
+              startValue: 50,
+              endValue: 90,
+              style: { fill: "#000", stroke: "#000" },
+              endWidth: 13,
+              startWidth: 10
+            },
+            {
+              startValue: 90,
+              endValue: 120,
+              style: { fill: "#000", stroke: "#000" },
+              endWidth: 16,
+              startWidth: 13
+            }
+          ],
+          ticksMinor: { interval: 5, size: "5%" },
+          ticksMajor: { interval: 10, size: "9%" },
+          value: 0,
+          colorScheme: "scheme08",
+          animationDuration: 1200
+        });
+
+        
+        // $("#gaugeContainer").jqxGauge("value", 80);
+        sockett.on("meditation", e => {
+          if (e) {
+            $("#gaugeContainer2").jqxGauge("value", e);
+          }
+        });
+      });
+
+
+
+
+      const socket = io('192.168.0.100:7788');
+      $(document).ready(function() {
+        $("#gaugeContainer").jqxGauge({
+          ranges: [
+            {
+              startValue: 0,
+              endValue: 25,
+              style: { fill: "#4bb648", stroke: "#4bb648" },
+              endWidth: 5,
+              startWidth: 1
+            },
+            {
+              startValue: 25,
+              endValue: 50,
+              style: { fill: "#fbd109", stroke: "#fbd109" },
+              endWidth: 10,
+              startWidth: 5
+            },
+            {
+              startValue: 50,
+              endValue: 90,
+              style: { fill: "#ff8000", stroke: "#ff8000" },
+              endWidth: 13,
+              startWidth: 10
+            },
+            {
+              startValue: 90,
+              endValue: 120,
+              style: { fill: "#e02629", stroke: "#e02629" },
+              endWidth: 16,
+              startWidth: 13
+            }
+          ],
+          ticksMinor: { interval: 5, size: "5%" },
+          ticksMajor: { interval: 10, size: "9%" },
+          value: 0,
+          colorScheme: "scheme08",
+          animationDuration: 1200
+        });
+
+        
+        // $("#gaugeContainer").jqxGauge("value", 80);
+        socket.on("meditation", e => {
+          if (e) {
+            $("#gaugeContainer").jqxGauge("value", e);
+          }
+        });
+      });
+    </script>
+    <style>
+      h1 {
+        font-family: "Shadows Into Light", cursive;
+      }
+    </style>
+  </head>
+  <body style="padding: 0;margin: 0;overflow: hidden;">
+    <div class="nameDiv" >
+      <h1 style="text-transform: uppercase;" id="hi">
+        one
+      </h1>
+  </div>
+  <div id="demoWidget">
+      <div
+        style="position: absolute;margin: auto;width:100%;left: 20%;top: 35%;transform: translate(-50%, -50%);"
+        id="gaugeContainer3"
+      >
+    </div>
+  </div>
+  <br>
+  <div class="nameDiv" style="margin-left: 400px;">
+      <h1 style="text-transform: uppercase;" id="hi">
+        LENOVO
+      </h1>
+  </div>
+  <div id="demoWidget">
+      <div
+        style="position: absolute;margin: auto;width:100%;left: 45%;top: 35%;transform: translate(-50%, -50%);"
+        id="gaugeContainer2"
+      >
+    </div>
+  </div>
+  
+  
+  <div class="nameDivv">
+    <h1 style="text-transform: uppercase;" >
+      ACER
+    </h1>
+</div>
+<div
+        style="position: absolute;margin: auto;width:100%;left: 70%;top: 35%;transform: translate(-50%, -50%);"
+        id="gaugeContainer"
+      >
+    </div>
+</div>
+    
+    <!-- <div style="width:100%;height: 100%;padding: 0;margin: 0;">
+      <video src="/asset/videos/smallfile3.mp4" style="position: relative;padding: 0;margin: 0;width: 100%;height: 100%;" loop muted autoplay></video>
+    </div> -->
+    <!-- <div class="clock" style="z-index: 999;">
+      <h1 class="timer">000</h1>
+    </div> -->
+   
+    <!-- <div style="position: absolute;width: 100%;"></div> -->
+    <!-- <div style="position: absolute;top: 11vh;left: 90vw">
+      <img src="" width="60vw" alt="" />
+    </div> -->
+   
+    <!-- </div>
+    <div
+      style="width: 100%;margin-top: -40vh;display: flex;align-items: center;text-align: center;position: absolute;"
+    >
+      <div style="width: 100%;">
+        <img src="../asset/images/logo5.png" style="width: 55%;" alt="" />
+      </div>
+      <div style="width: 100%;">
+        <img src="../asset/images/Logo (1).png" style="width: 55%;" alt="" />
+      </div>
+      <div style="width: 100%;">
+        <img src="../asset/images/logo3.png" style="width: 55%;" alt="" />
+      </div> -->
+
+
+    <script>
+      var user;
+      const newSocket = io();
+
+      newSocket.on("sendNewUser", e => {
+        console.log("newValue", e);
+        user = e;
+        var hell = document.getElementById("hi");
+        hell.innerText = e.userName;
+      });
+
+      // var Timer = 0;
+      // var startTimerInterval;
+      // socket.on("startValue", function(data) {
+      //   console.log(data);
+      //   if (data == 1) {
+      //     startHere();
+      //   }
+      //   if (data == 2) {
+      //     stopHere();
+      //     user.userTime = Timer;
+      //     socket.emit("timerValue", user);
+      //     window.location = "/winner";
+      //   }
+      //   if (data == 3) {
+      //     window.location = "/winner";
+      //   }
+      // });
+
+      // var startHere = () => {
+      //   startTimerInterval = setInterval(() => {
+      //     Timer++;
+      //     console.log(Timer);
+      //   }, 1000);
+      // };
+
+      // var stopHere = () => clearInterval(startTimerInterval);
+    </script>
+  </body>
+</html>
